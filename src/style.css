@@ -247,9 +247,7 @@ body {
 }
 
 /* --- Book Container (page-flip target) --- */
-.book-container {
-  /* Dimensions controlled by page-flip JS */
-}
+/* Dimensions controlled by page-flip JS */
 
 /* --- Page Styling --- */
 .page {
@@ -686,23 +684,55 @@ body {
   max-width: 340px;
 }
 
-.outline-number {
+.outline-text {
   color: #fff !important;
   text-shadow: 
     -1px -1px 0 #000,  
      1px -1px 0 #000,
     -1px  1px 0 #000,
-     1px  1px 0 #000 !important;
+     1px  1px 0 #000,
+     0px -1px 0 #000,
+     0px  1px 0 #000,
+    -1px  0px 0 #000,
+     1px  0px 0 #000 !important;
 }
 
 /* --- Activity Pages --- */
+.activity-page .page-text {
+  bottom: auto !important;
+  top: 10px !important;
+  background: transparent !important;
+  padding: 10px 30px !important;
+  text-align: center !important;
+  box-shadow: none !important;
+}
+
+.activity-page .activity-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem !important;
+  margin-bottom: 4px !important;
+}
+
+.activity-page .page-text p {
+  font-size: 0.85rem !important;
+  text-align: center !important;
+  margin-bottom: 0 !important;
+}
+
 .story-page:has(.page-text:empty) .page-illustration img {
   object-fit: contain;
   background: #fff;
 }
 
-.story-page:has(.page-text:empty)::after {
-  display: none !important; /* Hide gradient overlay on activity pages */
+.story-page:has(.page-text:empty)::after,
+.author-page .story-page::after,
+.credits-page .story-page::after,
+.blank-page .story-page::after {
+  display: none !important; /* Hide gradient/shadow on clean pages */
+}
+
+.story-page:has(.page-text:empty) .page-number {
+  color: #888 !important; /* Grey for visibility on white if no outline */
 }
 
 .story-page:has(.page-text:empty) .page-text {

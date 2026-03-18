@@ -258,6 +258,63 @@ class FlipbookApp {
         this.narrationDebounceTimer = null;
       }, 300);
     }
+
+    // Handle video playback for current page
+    this.playVideosOnCurrentPage(pageIndex);
+  }
+
+  playVideosOnCurrentPage(forcedIndex) {
+    const pageIndex = (forcedIndex !== undefined) ? forcedIndex : this.currentPage;
+    const isMobile = window.innerWidth <= 900;
+    const totalPages = this.pageFlip ? this.pageFlip.getPageCount() : 0;
+    
+    // 1. Determine which pages SHOULD be visible
+    const visibleIndices = [pageIndex];
+    if (!isMobile) {
+      // In desktop mode, we see a spread if not at the very ends
+      if (pageIndex > 0 && pageIndex < totalPages - 1) {
+        // StPageFlip spread logic: usually 1-2, 3-4, etc.
+        const partner = (pageIndex % 2 === 0) ? pageIndex - 1 : pageIndex + 1;
+        if (partner >= 0 && partner < totalPages) {
+          visibleIndices.push(partner);
+        }
+      } else if (pageIndex === 0 && totalPages > 1) {
+        // Just the cover, but some themes show the inner right too
+      }
+    }
+
+    // 2. Identify all video elements and their target states
+    const allPages = document.querySelectorAll('.page');
+    const allVids = document.querySelectorAll('.page-illustration video');
+    const targetVids = [];
+
+    visibleIndices.forEach(idx => {
+      const pageEl = allPages[idx];
+      if (pageEl) {
+        pageEl.querySelectorAll('video').forEach(v => targetVids.push(v));
+      }
+    });
+
+    // 3. Apply play/pause states
+    allVids.forEach(v => {
+      if (targetVids.includes(v)) {
+        if (v.paused) {
+          v.play().catch(e => {
+            // Silently catch autoplay blocks
+          });
+        }
+      } else {
+        if (!v.paused) v.pause();
+      }
+    });
+
+    // 4. Retry once to handle any dynamic DOM updates from the library
+    if (!this._videoRetryTimer) {
+      this._videoRetryTimer = setTimeout(() => {
+        this._videoRetryTimer = null;
+        this.playVideosOnCurrentPage();
+      }, 300);
+    }
   }
 
   updatePageIndicator(pageIndex) {
@@ -572,9 +629,9 @@ class FlipbookApp {
   }
 
   stopNarrationOnly() {
-    if (this.narrationAudio) {
-      this.narrationAudio.pause();
-      this.narrationAudio = null;
+    if (this.narrationAudioElement) {
+      this.narrationAudioElement.pause();
+      this.narrationAudioElement.src = '';
     }
     this.currentManualPage = null;
     
@@ -602,16 +659,13 @@ class FlipbookApp {
   }
 
   playNextInQueue(sessionId) {
-    // If session has changed or narration turned off, stop everything
     if (sessionId !== this.narrationSessionId || !this.isNarrationPlaying) return;
 
     if (this.currentQueueIndex >= this.narrationQueue.length) {
-      // Queue finished - flip to next page if not at the end
       if (this.isNarrationPlaying) {
         const lastPageIdx = this.narrationQueue[this.narrationQueue.length - 1];
         if (lastPageIdx < 44) {
           this.autoAdvanceTimer = setTimeout(() => {
-            // Verify session again after timeout
             if (sessionId === this.narrationSessionId && this.isNarrationPlaying) {
               this.pageFlip.flipNext();
             }
@@ -625,34 +679,38 @@ class FlipbookApp {
     const audioFile = this.getAudioFileForPage(pageIdx);
 
     if (!audioFile) {
-      // Skip this page and try next
       this.currentQueueIndex++;
       this.playNextInQueue(sessionId);
       return;
     }
 
-    this.narrationAudio = new Audio(`/audio/narration/${audioFile}`);
-    this.narrationAudio.volume = 1.0;
+    // Use persistent audio element if possible
+    if (!this.narrationAudioElement) {
+        this.narrationAudioElement = new Audio();
+        this.narrationAudioElement.volume = 1.0;
+        
+        this.narrationAudioElement.addEventListener('ended', () => {
+            if (this.currentSessionIdForEvent === this.narrationSessionId) {
+                this.currentQueueIndex++;
+                this.playNextInQueue(this.narrationSessionId);
+            }
+        });
+    }
 
-    // Highlight the speaker button for this page
+    this.currentSessionIdForEvent = sessionId;
+    this.narrationAudioElement.src = `/audio/narration/${audioFile}`;
     this.highlightSpeaker(pageIdx);
 
-    this.narrationAudio.addEventListener('ended', () => {
-      // Only proceed if session matches
+    this.narrationAudioElement.play().catch(err => {
+      console.warn(`Failed to play narration: ${audioFile}`, err);
       if (sessionId === this.narrationSessionId) {
         this.currentQueueIndex++;
         this.playNextInQueue(sessionId);
       }
     });
 
-    this.narrationAudio.play().catch(err => {
-      console.warn(`Failed to play narration: ${audioFile}`, err);
-      // Try next anyway if session matches
-      if (sessionId === this.narrationSessionId) {
-        this.currentQueueIndex++;
-        this.playNextInQueue(sessionId);
-      }
-    });
+    // Ensure videos are still playing when audio starts
+    this.playVideosOnCurrentPage();
   }
 
   initPageSpeakers() {
@@ -726,13 +784,11 @@ class FlipbookApp {
 
   // Manual Trigger for specific page
   playPageAudio(pageIdx) {
-    // If the same page is clicked again while playing, toggle it off
     if (this.currentManualPage === pageIdx) {
       this.stopNarrationOnly();
       return;
     }
 
-    // Stop auto-narration if it was playing to prevent conflicts
     this.stopNarrationOnly();
     
     const audioFile = this.getAudioFileForPage(pageIdx);
@@ -741,21 +797,34 @@ class FlipbookApp {
     this.currentManualPage = pageIdx;
     this.highlightSpeaker(pageIdx);
 
-    this.narrationAudio = new Audio(`/audio/narration/${audioFile}`);
-    this.narrationAudio.volume = 1.0;
+    if (!this.narrationAudioElement) {
+        this.narrationAudioElement = new Audio();
+        this.narrationAudioElement.volume = 1.0;
+        
+        this.narrationAudioElement.addEventListener('ended', () => {
+            if (this.currentSessionIdForEvent === this.narrationSessionId) {
+                if (this.currentManualPage) {
+                    const finishedPage = this.currentManualPage;
+                    this.currentManualPage = null;
+                    this.highlightSpeaker(-1);
+                } else {
+                    this.currentQueueIndex++;
+                    this.playNextInQueue(this.narrationSessionId);
+                }
+            }
+        });
+    }
 
-    // Reset currentManualPage when audio ends naturally
-    this.narrationAudio.addEventListener('ended', () => {
-      if (this.currentManualPage === pageIdx) {
-        this.currentManualPage = null;
-        this.highlightSpeaker(-1); // Remove highlight
-      }
-    });
+    this.currentSessionIdForEvent = this.narrationSessionId;
+    this.narrationAudioElement.src = `/audio/narration/${audioFile}`;
 
-    this.narrationAudio.play().catch(err => {
+    this.narrationAudioElement.play().catch(err => {
       console.warn(err);
       this.currentManualPage = null;
     });
+
+    // Sync videos
+    this.playVideosOnCurrentPage();
   }
 
 
