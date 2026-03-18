@@ -8,7 +8,7 @@ import './style.css';
 class FlipbookApp {
   constructor() {
     this.pageFlip = null;
-    this.isNarrationPlaying = true;
+    this.isNarrationPlaying = false;
     this.narrationAudio = null;
     this.narrationQueue = [];
     this.currentQueueIndex = 0;
@@ -50,6 +50,9 @@ class FlipbookApp {
       this.initSlider();
       this.initKeyboard();
       this.initPageSpeakers();
+      
+      // Initialize onboarding guide
+      this.onboarding = new Onboarding(this);
 
       // 2. Wait for minimum load time, then reveal
       const elapsed = Date.now() - startTime;
@@ -108,6 +111,10 @@ class FlipbookApp {
     // Then fade out the overlay on top
     setTimeout(() => {
       overlay.classList.add('fade-out');
+      // Start onboarding if needed
+      if (this.onboarding) {
+        this.onboarding.start();
+      }
     }, 50);
 
     setTimeout(() => {
@@ -324,12 +331,10 @@ class FlipbookApp {
     if (indicator) {
       if (pageIndex === 0) {
         indicator.textContent = 'Pabalat';
-      } else if (pageIndex === 1 || pageIndex === 2) {
-        indicator.textContent = 'Talaan ng Nilalaman';
       } else if (pageIndex >= totalPages - 1) {
         indicator.textContent = 'Likod ng Aklat';
       } else {
-        indicator.textContent = `Pahina ${pageIndex - 2} ng ${totalPages - 4}`;
+        indicator.textContent = `Pahina ${pageIndex} ng ${totalPages - 2}`;
       }
     }
 
@@ -386,11 +391,6 @@ class FlipbookApp {
     const narrationBtn = document.getElementById('btn-narration');
     const settingsBtn = document.getElementById('btn-settings');
     const settingsPanel = document.getElementById('settings-panel');
-
-    // Enable narration by default in UI
-    if (this.isNarrationPlaying && narrationBtn) {
-      narrationBtn.classList.add('active');
-    }
 
     prevBtn.addEventListener('click', () => {
       this.pageFlip.flipPrev();
@@ -666,7 +666,7 @@ class FlipbookApp {
     if (this.currentQueueIndex >= this.narrationQueue.length) {
       if (this.isNarrationPlaying) {
         const lastPageIdx = this.narrationQueue[this.narrationQueue.length - 1];
-        if (lastPageIdx < 46) {
+        if (lastPageIdx < 44) {
           this.autoAdvanceTimer = setTimeout(() => {
             if (sessionId === this.narrationSessionId && this.isNarrationPlaying) {
               this.pageFlip.flipNext();
@@ -723,13 +723,11 @@ class FlipbookApp {
       
       const pageIdx = parseInt(pageNumEl.textContent);
       if (isNaN(pageIdx) || pageIdx < 1 || pageIdx > 44) return;
-      
-      const libPageIdx = pageIdx + 2; // Cover(0), Inner(1), TOC(2), Page 1(3)
 
       // Create speaker button
       const btn = document.createElement('button');
       btn.className = 'page-speaker-btn';
-      btn.id = `speaker-page-${libPageIdx}`;
+      btn.id = `speaker-page-${pageIdx}`;
       btn.setAttribute('aria-label', `Basahin ang pahina ${pageIdx}`);
       btn.setAttribute('title', 'Basahin ang pahinang ito');
       
@@ -753,7 +751,7 @@ class FlipbookApp {
         e.stopPropagation();
         // If touch already handled it, click might be prevented by preventDefault above.
         // If not, we play it here.
-        this.playPageAudio(libPageIdx);
+        this.playPageAudio(pageIdx);
       });
 
       // Prevent PageFlip library from capturing these as gestures in all phases
@@ -776,13 +774,12 @@ class FlipbookApp {
   }
 
   getAudioFileForPage(pageIdx) {
-    const storyPageNum = pageIdx - 2; // Index 3 is Story Page 1
-    if (storyPageNum >= 1 && storyPageNum <= 36) {
-      return `scene${storyPageNum}.mp3`;
-    } else if (storyPageNum === 37 || storyPageNum === 38) {
+    if (pageIdx >= 1 && pageIdx <= 36) {
+      return `scene${pageIdx}.mp3`;
+    } else if (pageIdx === 37 || pageIdx === 38) {
       return `scene38.mp3`;
-    } else if (storyPageNum >= 39 && storyPageNum <= 44) {
-      return `scene${storyPageNum}.mp3`;
+    } else if (pageIdx >= 39 && pageIdx <= 44) {
+      return `scene${pageIdx}.mp3`;
     }
     return null;
   }
@@ -849,6 +846,209 @@ class FlipbookApp {
       particle.style.opacity = `${0.1 + Math.random() * 0.3}`;
       container.appendChild(particle);
     }
+  }
+}
+
+// --- Onboarding Guide Class ---
+class Onboarding {
+  constructor(app) {
+    this.app = app;
+    this.overlay = document.getElementById('onboarding-overlay');
+    this.tooltip = document.getElementById('onboarding-tooltip');
+    this.title = document.getElementById('onboarding-title');
+    this.text = document.getElementById('onboarding-text');
+    this.btnNext = document.getElementById('onboarding-next');
+    this.btnPrev = document.getElementById('onboarding-prev');
+    this.btnSkip = document.getElementById('onboarding-skip');
+    
+    this.currentStep = 0;
+    this.isComplete = localStorage.getItem('onboarding_complete') === 'true';
+    
+    this.steps = [
+      {
+        title: "Welcome!",
+        text: "Let us show you around the controls of our interactive book.",
+        target: null, // Center
+        arrow: "none"
+      },
+      {
+        title: "Narration Icon",
+        text: "Click the microphone icon to toggle automatic narration on or off.",
+        target: "#btn-narration",
+        arrow: "bottom"
+      },
+      {
+        title: "Page Navigation",
+        text: "Use this slider to quickly jump to any part of the story.",
+        target: ".main-page-slider",
+        arrow: "bottom"
+      },
+      {
+        title: "Settings",
+        text: "Customize text size, zoom, and line spacing for your comfort.",
+        target: "#btn-settings",
+        arrow: "bottom"
+      },
+      {
+        title: "Turning Pages",
+        text: "Click these arrows or swipe the screen to move to the next or previous page.",
+        target: "#btn-next",
+        arrow: "right"
+      },
+      {
+        title: "Listen Individually",
+        text: "Click the speaker icon on any page to hear it read individually. We'll show you an example.",
+        target: "#speaker-page-1",
+        arrow: "left",
+        action: () => {
+          if (this.app && this.app.pageFlip) {
+            this.app.pageFlip.turnToPage(1);
+          }
+        }
+      },
+      {
+        title: "You're all set!",
+        text: "You can use Narration for automatic reading, or use the Speaker icons to read manually. Enjoy 'Ang Pasalubong Para Kay Belay'!",
+        target: null,
+        arrow: "none"
+      }
+    ];
+
+    if (this.overlay) {
+      this.initEvents();
+    }
+    
+    // Recalculate position on resize
+    this._resizeHandler = () => {
+      if (this.overlay && this.overlay.classList.contains('active')) {
+        this.showStep();
+      }
+    };
+    window.addEventListener('resize', this._resizeHandler);
+  }
+
+  initEvents() {
+    this.btnNext.addEventListener('click', () => this.nextStep());
+    this.btnPrev.addEventListener('click', () => this.prevStep());
+    this.btnSkip.addEventListener('click', () => this.finish());
+  }
+
+  start() {
+    if (this.isComplete || !this.overlay) return;
+    this.currentStep = 0;
+    this.overlay.classList.add('active');
+    this.showStep();
+  }
+
+  nextStep() {
+    if (this.currentStep < this.steps.length - 1) {
+      this.currentStep++;
+      this.showStep();
+    } else {
+      this.finish();
+    }
+  }
+
+  prevStep() {
+    if (this.currentStep > 0) {
+      this.currentStep--;
+      this.showStep();
+    }
+  }
+
+  showStep() {
+    const step = this.steps[this.currentStep];
+    this.title.textContent = step.title;
+    this.text.textContent = step.text;
+    
+    // Update buttons
+    this.btnPrev.disabled = this.currentStep === 0;
+    this.btnNext.textContent = this.currentStep === this.steps.length - 1 ? "Get Started" : "Next";
+    
+    // Run step action if it exists
+    if (step.action) {
+      step.action();
+      // Small delay to allow page turn animation or DOM updates
+      setTimeout(() => this.positionTooltipAtTarget(step), 400);
+    } else {
+      this.positionTooltipAtTarget(step);
+    }
+  }
+
+  positionTooltipAtTarget(step) {
+    if (step.target) {
+      const el = document.querySelector(step.target);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        this.highlight(rect);
+        this.positionTooltip(rect, step.arrow);
+      } else {
+        this.centerTooltip();
+      }
+    } else {
+      this.centerTooltip();
+    }
+  }
+
+  highlight(rect) {
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const r = Math.max(rect.width, rect.height) / 1.5 + 5;
+    
+    this.overlay.style.setProperty('--highlight-x', `${x}px`);
+    this.overlay.style.setProperty('--highlight-y', `${y}px`);
+    this.overlay.style.setProperty('--highlight-r', `${r}px`);
+  }
+
+  centerTooltip() {
+    this.overlay.style.setProperty('--highlight-r', `0px`);
+    this.tooltip.style.top = '50%';
+    this.tooltip.style.left = '50%';
+    this.tooltip.style.transform = 'translate(-50%, -50%)';
+    this.tooltip.setAttribute('data-arrow', 'none');
+  }
+
+  positionTooltip(targetRect, arrow) {
+    const padding = 20;
+    const tooltipRect = this.tooltip.getBoundingClientRect();
+    let top, left;
+
+    this.tooltip.setAttribute('data-arrow', arrow);
+
+    switch (arrow) {
+      case 'bottom':
+        top = targetRect.top - tooltipRect.height - padding;
+        left = targetRect.left + (targetRect.width / 2) - (tooltipRect.width / 2);
+        break;
+      case 'top':
+        top = targetRect.bottom + padding;
+        left = targetRect.left + (targetRect.width / 2) - (tooltipRect.width / 2);
+        break;
+      case 'left':
+        top = targetRect.top + (targetRect.height / 2) - (tooltipRect.height / 2);
+        left = targetRect.right + padding;
+        break;
+      case 'right':
+        top = targetRect.top + (targetRect.height / 2) - (tooltipRect.height / 2);
+        left = targetRect.left - tooltipRect.width - padding;
+        break;
+      default:
+        this.centerTooltip();
+        return;
+    }
+
+    // Constraints to keep tooltip on screen
+    left = Math.max(10, Math.min(window.innerWidth - tooltipRect.width - 10, left));
+    top = Math.max(10, Math.min(window.innerHeight - tooltipRect.height - 10, top));
+
+    this.tooltip.style.top = `${top}px`;
+    this.tooltip.style.left = `${left}px`;
+    this.tooltip.style.transform = 'none';
+  }
+
+  finish() {
+    this.overlay.classList.remove('active');
+    localStorage.setItem('onboarding_complete', 'true');
   }
 }
 

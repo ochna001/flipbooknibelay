@@ -57,45 +57,6 @@
           </div>
         </div>
 
-        <!-- Inner Cover (Left) -->
-        <div class="page blank-page inner-cover" data-density="soft">
-          <div class="page-content story-page" style="background: #fdfaf6;">
-          </div>
-        </div>
-
-        <!-- Table of Contents Page (Right) -->
-        <div class="page toc-page" data-density="soft">
-          <div class="page-content story-page toc-container">
-            <div class="toc-header">
-              <h2 class="toc-title">Talaan ng Nilalaman</h2>
-              <div class="toc-divider"></div>
-            </div>
-            <ul class="toc-list">
-              <li class="toc-item">
-                <span class="toc-label">Ang Simula ng Kwento</span>
-                <span class="toc-dots"></span>
-                <span class="toc-page-num">1</span>
-              </li>
-              <li class="toc-item">
-                <span class="toc-label">Mga Gawain</span>
-                <span class="toc-dots"></span>
-                <span class="toc-page-num">45</span>
-              </li>
-              <li class="toc-item">
-                <span class="toc-label">Mga May-Akda</span>
-                <span class="toc-dots"></span>
-                <span class="toc-page-num">51</span>
-              </li>
-              <li class="toc-item">
-                <span class="toc-label">Pasasalamat</span>
-                <span class="toc-dots"></span>
-                <span class="toc-page-num">52</span>
-              </li>
-            </ul>
-            <div class="toc-footer-ornament">❦</div>
-          </div>
-        </div>
-
         <!-- Page 1 -->
         <div class="page" data-density="soft">
           <div class="page-content story-page">
@@ -144,7 +105,7 @@
               <div class="page-loader">
                 <div class="spinner"></div>
               </div>
-              <video src="./videos/scene3.mp4" autoplay muted loop playsinline></video>
+              <video src="./videos/scene4.mp4" autoplay muted loop playsinline></video>
             </div>
             <div class="page-text">
               <p>Habang abala ang aming ina sa pagtitinda, ang aking nakatatandang kambal na kapatid na si kuya Gino at
@@ -163,7 +124,7 @@
               <div class="page-loader">
                 <div class="spinner"></div>
               </div>
-              <video src="./videos/scene4.mp4" autoplay muted loop playsinline></video>
+              <video src="./videos/scene3.mp4" autoplay muted loop playsinline></video>
             </div>
             <div class="page-text">
               <p>Doon ay nakikipagsapalaran siya sa mga mahal na presyo ng mga bilihin upang may maitinda, kapag balik
@@ -866,7 +827,7 @@
               <div class="page-loader">
                 <div class="spinner"></div>
               </div>
-              <img src="./images/image24.png" alt="Scene 38" loading="lazy" />
+              <video src="./videos/page38.mp4" autoplay muted loop playsinline></video>
             </div>
             <div class="page-text">
               <p>"Hindi ang sagot. Mayroon silang mga gusali, mga mall, mga sasakyan. Ngunit wala silang katahimikan
@@ -1028,14 +989,14 @@
         <div class="page activity-page" data-density="soft">
           <div class="page-content story-page">
             <div class="page-text outline-text">
-              <h3 class="activity-title">Gawain 2</h3>
+              <h3 class="activity-title"></h3>
               <p></p>
             </div>
             <div class="page-illustration">
               <div class="page-loader">
                 <div class="spinner"></div>
               </div>
-              <img src="./images/activity_aral_1.png" alt="Activity 2 - 1" loading="lazy" />
+              <img src="./images/gawain2.png" alt="Activity 2 - 1" loading="lazy" />
             </div>
             <div class="page-number outline-text">46</div>
           </div>
@@ -1048,7 +1009,7 @@
               <div class="page-loader">
                 <div class="spinner"></div>
               </div>
-              <img src="./images/activity_aral_2.png" alt="Activity 2 - 2" loading="lazy" />
+              <img src="./images/gawain3.png" alt="Activity 2 - 2" loading="lazy" />
             </div>
             <div class="page-text">
             </div>
@@ -1063,7 +1024,7 @@
               <div class="page-loader">
                 <div class="spinner"></div>
               </div>
-              <img src="./images/activity_aral_3.png" alt="Activity 2 - 3" loading="lazy" />
+              <img src="./images/gawain3-2.png" alt="Activity 2 - 3" loading="lazy" />
             </div>
             <div class="page-text">
             </div>
@@ -1075,14 +1036,14 @@
         <div class="page activity-page" data-density="soft">
           <div class="page-content story-page">
             <div class="page-text outline-text">
-              <h3 class="activity-title">Gawain 3</h3>
+              <h3 class="activity-title"></h3>
               <p></p>
             </div>
             <div class="page-illustration">
               <div class="page-loader">
                 <div class="spinner"></div>
               </div>
-              <img src="./images/activity_karakter_1.png" alt="Activity 3" loading="lazy" />
+              <img src="./images/gawain3-3.png" alt="Activity 3" loading="lazy" />
             </div>
             <div class="page-number outline-text">49</div>
           </div>
@@ -1225,6 +1186,24 @@
         </div>
       </div>
       <div class="controls-right">
+      </div>
+      <!-- Onboarding Overlay -->
+      <div id="onboarding-overlay" class="onboarding-overlay">
+        <div class="onboarding-backdrop"></div>
+        <div id="onboarding-tooltip" class="onboarding-tooltip">
+          <div class="onboarding-content">
+            <h4 id="onboarding-title">Welcome!</h4>
+            <p id="onboarding-text">Let us show you around.</p>
+          </div>
+          <div class="onboarding-actions">
+            <button id="onboarding-skip" class="onboarding-btn btn-skip">Skip</button>
+            <div class="onboarding-nav">
+              <button id="onboarding-prev" class="onboarding-btn btn-nav" disabled>Back</button>
+              <button id="onboarding-next" class="onboarding-btn btn-nav">Next</button>
+            </div>
+          </div>
+          <div class="onboarding-arrow"></div>
+        </div>
       </div>
     </div>
   </div>
