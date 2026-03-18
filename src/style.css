@@ -724,6 +724,84 @@ body {
   background: #fff;
 }
 
+/* Hide spine shadow on blank/author/credits pages */
+.blank-page .page-content::before,
+.author-page .page-content::before,
+.credits-page .page-content::before,
+.toc-page .page-content::before,
+.inner-cover .page-content::before {
+    display: none !important;
+}
+
+/* TOC Styles */
+.toc-container {
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fdfaf6;
+    color: #4a3728;
+}
+
+.toc-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #2c1e14;
+    margin-bottom: 0.5rem;
+}
+
+.toc-divider {
+    height: 2px;
+    width: 60px;
+    background: #d4a373;
+    margin: 0.5rem auto;
+}
+
+.toc-list {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1.2rem;
+    font-family: 'Merriweather', serif;
+    font-size: 1.1rem;
+}
+
+.toc-label {
+    flex-shrink: 0;
+}
+
+.toc-dots {
+    flex-grow: 1;
+    border-bottom: 1px dotted #a67c52;
+    margin: 0 10px;
+    position: relative;
+    top: -4px;
+}
+
+.toc-page-num {
+    font-weight: 700;
+    color: #a67c52;
+}
+
+.toc-footer-ornament {
+    margin-top: auto;
+    font-size: 1.5rem;
+    color: #d4a373;
+    opacity: 0.6;
+}
+
 .story-page:has(.page-text:empty)::after,
 .author-page .story-page::after,
 .credits-page .story-page::after,

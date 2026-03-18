@@ -324,10 +324,12 @@ class FlipbookApp {
     if (indicator) {
       if (pageIndex === 0) {
         indicator.textContent = 'Pabalat';
+      } else if (pageIndex === 1 || pageIndex === 2) {
+        indicator.textContent = 'Talaan ng Nilalaman';
       } else if (pageIndex >= totalPages - 1) {
         indicator.textContent = 'Likod ng Aklat';
       } else {
-        indicator.textContent = `Pahina ${pageIndex} ng ${totalPages - 2}`;
+        indicator.textContent = `Pahina ${pageIndex - 2} ng ${totalPages - 4}`;
       }
     }
 
@@ -664,7 +666,7 @@ class FlipbookApp {
     if (this.currentQueueIndex >= this.narrationQueue.length) {
       if (this.isNarrationPlaying) {
         const lastPageIdx = this.narrationQueue[this.narrationQueue.length - 1];
-        if (lastPageIdx < 44) {
+        if (lastPageIdx < 46) {
           this.autoAdvanceTimer = setTimeout(() => {
             if (sessionId === this.narrationSessionId && this.isNarrationPlaying) {
               this.pageFlip.flipNext();
@@ -721,11 +723,13 @@ class FlipbookApp {
       
       const pageIdx = parseInt(pageNumEl.textContent);
       if (isNaN(pageIdx) || pageIdx < 1 || pageIdx > 44) return;
+      
+      const libPageIdx = pageIdx + 2; // Cover(0), Inner(1), TOC(2), Page 1(3)
 
       // Create speaker button
       const btn = document.createElement('button');
       btn.className = 'page-speaker-btn';
-      btn.id = `speaker-page-${pageIdx}`;
+      btn.id = `speaker-page-${libPageIdx}`;
       btn.setAttribute('aria-label', `Basahin ang pahina ${pageIdx}`);
       btn.setAttribute('title', 'Basahin ang pahinang ito');
       
@@ -749,7 +753,7 @@ class FlipbookApp {
         e.stopPropagation();
         // If touch already handled it, click might be prevented by preventDefault above.
         // If not, we play it here.
-        this.playPageAudio(pageIdx);
+        this.playPageAudio(libPageIdx);
       });
 
       // Prevent PageFlip library from capturing these as gestures in all phases
@@ -772,12 +776,13 @@ class FlipbookApp {
   }
 
   getAudioFileForPage(pageIdx) {
-    if (pageIdx >= 1 && pageIdx <= 36) {
-      return `scene${pageIdx}.mp3`;
-    } else if (pageIdx === 37 || pageIdx === 38) {
+    const storyPageNum = pageIdx - 2; // Index 3 is Story Page 1
+    if (storyPageNum >= 1 && storyPageNum <= 36) {
+      return `scene${storyPageNum}.mp3`;
+    } else if (storyPageNum === 37 || storyPageNum === 38) {
       return `scene38.mp3`;
-    } else if (pageIdx >= 39 && pageIdx <= 44) {
-      return `scene${pageIdx}.mp3`;
+    } else if (storyPageNum >= 39 && storyPageNum <= 44) {
+      return `scene${storyPageNum}.mp3`;
     }
     return null;
   }
