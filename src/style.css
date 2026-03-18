@@ -1,0 +1,1351 @@
+/* ===================================================
+   BELAY — Digital Flipbook Stylesheet
+   =================================================== */
+
+/* --- CSS Reset & Base --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Color Palette */
+  --bg-dark: #0d0f14;
+  --bg-particle: rgba(255, 213, 145, 0.06);
+  --parchment: #f5eedc;
+  --parchment-dark: #e8dcc8;
+  --parchment-edge: #d4c5a9;
+  --ink: #2c1810;
+  --ink-light: #4a3728;
+  --accent-gold: #c9973f;
+  --accent-warm: #d48c3e;
+  --accent-deep: #8b4513;
+  --cover-bg: #1a1207;
+  --cover-text: #e8d5a3;
+  --shadow-dark: rgba(0, 0, 0, 0.7);
+  --shadow-medium: rgba(0, 0, 0, 0.3);
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.15);
+
+  /* Typography */
+  --font-body: 'Merriweather', Georgia, 'Times New Roman', serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-script: 'Great Vibes', cursive;
+
+  /* Sizing */
+  --book-width: 900px;
+  --book-height: 600px;
+  --page-padding: 40px;
+
+  /* Dynamic Text Controls */
+  --story-text-size: 0.78rem;
+  --story-line-height: 1.8;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-body);
+  background: var(--bg-dark);
+  color: #e0d6c8;
+}
+
+/* --- Loading Overlay --- */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loading-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-book {
+  position: relative;
+  width: 80px;
+  height: 100px;
+  margin: 0 auto 24px;
+  perspective: 600px;
+}
+
+.loading-page {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  right: 0;
+  background: var(--parchment);
+  border-radius: 0 4px 4px 0;
+  transform-origin: left center;
+  animation: loadFlip 1.8s ease-in-out infinite;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.loading-page:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading-page:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.loading-page:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes loadFlip {
+
+  0%,
+  100% {
+    transform: rotateY(0deg);
+  }
+
+  50% {
+    transform: rotateY(-180deg);
+  }
+}
+
+.loading-text {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--accent-gold);
+  letter-spacing: 1px;
+  animation: loadPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loadPulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.app.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.app.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+/* Hide raw page elements until flipbook takes over */
+#book>.page {
+  display: none;
+}
+
+.stf__parent .page,
+.stf__parent .stf__item {
+  display: block;
+}
+
+/* --- Background Particles --- */
+.bg-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--bg-particle);
+  border-radius: 50%;
+  animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-10vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* --- Header --- */
+.book-header {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.book-title-header {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 2px;
+  text-transform: none;
+}
+
+.book-title-header .accent {
+  font-size: 1.3rem;
+}
+
+/* --- Book Wrapper --- */
+.book-wrapper {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+/* --- Book Container (page-flip target) --- */
+.book-container {
+  /* Dimensions controlled by page-flip JS */
+}
+
+/* --- Page Styling --- */
+.page {
+  background: var(--parchment);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Simulate realistic 3D Book Thickness / Stacked Pages Effect dynamically via JS */
+.page:nth-child(odd) {
+  /* Right-side pages */
+  box-shadow: var(--right-page-shadow, none);
+}
+
+.page:nth-child(even) {
+  /* Left-side pages */
+  box-shadow: var(--left-page-shadow, none);
+}
+
+.page-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* --- Cover Pages --- */
+.page.page-cover {
+  box-shadow: none !important;
+  /* Do not show huge page stack thickness on the single cover page while it flips */
+}
+
+/* Inside of the covers shouldn't carry stack thickness while flipping */
+.page:nth-child(2),
+.page:nth-last-child(2) {
+  box-shadow: none !important;
+}
+
+.cover-front {
+  background: linear-gradient(135deg, #1a1207 0%, #2d1f0e 40%, #1a1207 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-image-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+  filter: blur(1px);
+}
+
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+      rgba(26, 18, 7, 0.3) 0%,
+      rgba(26, 18, 7, 0.1) 30%,
+      rgba(26, 18, 7, 0.5) 70%,
+      rgba(26, 18, 7, 0.9) 100%);
+}
+
+.cover-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  z-index: 2;
+}
+
+.cover-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.cover-title {
+  font-family: var(--font-script);
+  font-size: 3.5rem;
+  color: var(--cover-text);
+  margin-bottom: 16px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+}
+
+.cover-ornament {
+  font-size: 1rem;
+  color: var(--accent-gold);
+  margin-bottom: 20px;
+  letter-spacing: 8px;
+  opacity: 0.7;
+}
+
+.cover-tagline {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-style: italic;
+  color: rgba(232, 213, 163, 0.7);
+  max-width: 280px;
+  line-height: 1.6;
+}
+
+/* Back Cover */
+.cover-back {
+  background: linear-gradient(135deg, #1a1207 0%, #2d1f0e 50%, #1a1207 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-cover-content {
+  text-align: center;
+  padding: 40px;
+}
+
+.back-title {
+  font-family: var(--font-script);
+  font-size: 2.2rem;
+  color: var(--cover-text);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.back-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 24px;
+}
+
+.back-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--accent-gold);
+  margin: 0 auto 24px;
+  opacity: 0.5;
+}
+
+.back-quote {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-style: italic;
+  color: rgba(232, 213, 163, 0.6);
+  max-width: 260px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
+}
+
+.back-ornament {
+  font-size: 0.85rem;
+  color: var(--accent-gold);
+  letter-spacing: 8px;
+  opacity: 0.5;
+  margin: 12px 0;
+}
+
+/* --- Story Pages --- */
+.story-page {
+  background: linear-gradient(135deg,
+      var(--parchment) 0%,
+      #f8f2e4 50%,
+      var(--parchment-dark) 100%);
+  padding: var(--page-padding);
+  color: var(--ink);
+  position: relative;
+}
+
+/* Remove padding when page has an illustration so image fills whole background */
+.story-page:has(.page-illustration) {
+  padding: 0;
+}
+
+/* Paper texture overlay */
+.story-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent 28px,
+      rgba(0, 0, 0, 0.02) 28px,
+      rgba(0, 0, 0, 0.02) 29px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Page edge shadow - 3D Spine Crease */
+/* Right-side pages (Spine is on the left) */
+.page:nth-child(odd) .story-page::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(to right,
+      rgba(0, 0, 0, 0.65) 0%,
+      rgba(0, 0, 0, 0.15) 15%,
+      rgba(255, 255, 255, 0.1) 30%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 5;
+  /* Ensure it sits on top of illustrations */
+}
+
+/* Left-side pages (Spine is on the right) */
+.page:nth-child(even) .story-page::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: auto;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(to left,
+      rgba(0, 0, 0, 0.65) 0%,
+      rgba(0, 0, 0, 0.15) 15%,
+      rgba(255, 255, 255, 0.1) 30%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* --- Page Illustrations --- */
+.page-illustration {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  overflow: hidden;
+  z-index: 0;
+  /* behind text */
+  box-shadow: none;
+}
+
+.page-illustration img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.9) contrast(1.05);
+}
+
+.page-illustration video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.9) contrast(1.05);
+}
+
+/* --- Page Text --- */
+.page-text {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Overlay box at bottom for text when there is a background image */
+.story-page:has(.page-illustration) .page-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  min-height: auto;
+  max-height: 60%;
+  padding: 24px 30px 45px 30px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.1);
+  /* 90% transparent white */
+  box-shadow: none;
+  margin: 0;
+  color: #ffffff;
+  /* White text */
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.9),
+    0 0 8px rgba(0, 0, 0, 0.7),
+    0 0 15px rgba(0, 0, 0, 0.5);
+  /* Strong black drop shadow / halo for contrast */
+}
+
+.page-text.full-text {
+  padding-top: 8px;
+}
+
+/* Custom scrollbar for text overflow */
+.page-text::-webkit-scrollbar {
+  width: 4px;
+}
+
+.page-text::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.page-text::-webkit-scrollbar-thumb {
+  background: var(--parchment-edge);
+  border-radius: 4px;
+}
+
+.chapter-marker {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent-gold);
+  margin-bottom: 4px;
+}
+
+.chapter-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-deep);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.page-text p {
+  font-size: var(--story-text-size);
+  line-height: var(--story-line-height);
+  margin-bottom: 10px;
+  color: var(--ink);
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Force white text on image pages */
+.story-page:has(.page-illustration) .page-text p,
+.story-page:has(.page-illustration) .page-text em {
+  color: #ffffff !important;
+}
+
+.page-text em {
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+.quote-text {
+  font-family: var(--font-heading);
+  font-style: italic;
+  text-align: center !important;
+  color: var(--accent-deep) !important;
+  font-size: 0.85rem !important;
+  padding: 12px 16px;
+  border-left: 3px solid var(--accent-gold);
+  margin: 12px 0 !important;
+  background: rgba(201, 151, 63, 0.06);
+  border-radius: 0 4px 4px 0;
+}
+
+.page-divider {
+  text-align: center;
+  color: var(--accent-gold);
+  font-size: 1rem;
+  margin: 16px 0;
+  opacity: 0.5;
+}
+
+/* --- Page Number --- */
+.page-number {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: var(--parchment-edge);
+  z-index: 5;
+}
+
+/* White page numbers on illustration pages */
+.story-page:has(.page-illustration) .page-number {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Reflection / Closing Page --- */
+.reflection-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 24px;
+}
+
+.reflection-ornament {
+  color: var(--accent-gold);
+  font-size: 1.5rem;
+  margin: 12px 0;
+  opacity: 0.6;
+}
+
+.reflection-text {
+  font-family: var(--font-heading);
+  font-size: 0.82rem !important;
+  font-style: italic;
+  text-align: center !important;
+  line-height: 2 !important;
+  color: var(--ink-light) !important;
+  max-width: 360px;
+}
+
+.closing-line {
+  font-family: var(--font-body);
+  font-size: 0.75rem !important;
+  text-align: center !important;
+  color: var(--accent-deep) !important;
+  line-height: 1.9 !important;
+  margin-top: 8px !important;
+  max-width: 340px;
+}
+
+.outline-number {
+  color: #fff !important;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000 !important;
+}
+
+/* --- Activity Pages --- */
+.story-page:has(.page-text:empty) .page-illustration img {
+  object-fit: contain;
+  background: #fff;
+}
+
+.story-page:has(.page-text:empty)::after {
+  display: none !important; /* Hide gradient overlay on activity pages */
+}
+
+.story-page:has(.page-text:empty) .page-text {
+  display: none; /* Hide empty text container */
+}
+
+.story-page:has(.page-text:empty) {
+  background: #fff; /* White background for activity worksheets */
+}
+
+/* --- Credits and Author Pages --- */
+.credits-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fdfaf6 !important; /* Slightly off-white for a paper feel */
+  padding: 3rem;
+  text-align: center;
+}
+
+.credits-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--accent-deep);
+  margin-bottom: 2rem;
+  letter-spacing: 0.2rem;
+  border-bottom: 2px solid var(--accent-gold);
+  padding-bottom: 0.5rem;
+}
+
+.authors-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.authors-list li {
+  font-family: 'Merriweather', serif;
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.05rem;
+}
+
+.author-page .page-illustration img {
+  object-fit: contain;
+  background: #fdfaf6;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.blank-page {
+  background: #fdfaf6 !important;
+}
+
+/* --- Navigation Buttons --- */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+.nav-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.nav-prev {
+  left: -64px;
+}
+
+.nav-next {
+  right: -64px;
+}
+
+/* --- Bottom Controls Bar --- */
+.controls-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  padding: 12px 24px 8px;
+  flex-shrink: 0;
+}
+
+.controls-left,
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controls-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.main-page-slider {
+  max-width: 320px;
+  margin: 0;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.control-btn.active {
+  background: rgba(201, 151, 63, 0.2);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.control-label {
+  font-family: var(--font-body);
+}
+
+/* --- Format Select --- */
+/* --- Settings Panel --- */
+.settings-panel {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  width: 360px;
+  background: rgba(13, 15, 20, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 20px;
+  z-index: 100;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.settings-panel.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.settings-header {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settings-header h3 {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: var(--accent-gold);
+  letter-spacing: 1px;
+}
+
+/* --- Sliders System --- */
+.sliders-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.slider-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.slider-label-left {
+  font-family: var(--font-body);
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+  min-width: 60px;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.styled-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 3px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.styled-slider:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.styled-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.styled-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  box-shadow: 0 0 12px rgba(201, 151, 63, 0.4);
+}
+
+.styled-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.slider-value {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 80px;
+  text-align: left;
+}
+
+#size-label {
+  min-width: 35px;
+}
+
+.page-indicator {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+}
+
+
+
+/* --- Page flip shadow enhancement --- */
+.stf__parent {
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.5),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1200px) {
+  .page-text p {
+    font-size: 0.82rem;
+  }
+
+  .nav-prev {
+    left: -58px;
+  }
+
+  .nav-next {
+    right: -58px;
+  }
+}
+
+@media (max-width: 900px) {
+  .book-header {
+    margin-bottom: 6px;
+  }
+
+  .book-title-header {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  .cover-title {
+    font-size: 2.5rem;
+  }
+
+  .cover-subtitle {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+  }
+
+  .cover-tagline {
+    font-size: 0.72rem;
+  }
+
+  .page-illustration {
+    min-height: 130px;
+    max-height: 220px;
+    margin-bottom: 10px;
+  }
+
+  .chapter-title {
+    font-size: 1rem;
+  }
+
+  .page-text p {
+    font-size: 0.74rem;
+    line-height: 1.7;
+  }
+
+  .nav-prev {
+    left: -50px;
+  }
+
+  .nav-next {
+    right: -50px;
+  }
+
+  .nav-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .control-label {
+    display: none;
+  }
+
+  .control-btn {
+    padding: 8px 10px;
+  }
+
+  .controls-bar {
+    padding: 8px 16px 4px;
+  }
+
+  .book-wrapper {
+    margin-bottom: 65px;
+    /* More space for the nav buttons below */
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --page-padding: 14px;
+  }
+
+  .nav-btn {
+    top: auto;
+    bottom: -55px;
+    /* Position below the book */
+    transform: none;
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .nav-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .nav-btn:active {
+    transform: scale(0.95);
+  }
+
+  .nav-prev {
+    left: calc(50% - 65px);
+    /* Centered with gap */
+  }
+
+  .nav-next {
+    right: calc(50% - 65px);
+    left: auto;
+  }
+
+  .nav-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .page-text p {
+    font-size: var(--story-text-size);
+    line-height: var(--story-line-height);
+    margin-bottom: 8px;
+  }
+
+  .chapter-title {
+    font-size: 0.9rem;
+  }
+
+  .page-illustration {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    z-index: 1;
+    background: #000;
+  }
+
+  .page-illustration video,
+  .page-illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Add a subtle dark gradient overlay on mobile to ensure text contrast */
+  .story-page:has(.page-illustration)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.6) 80%, rgba(0, 0, 0, 0.8) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Adjust text container for mobile overlay */
+  .story-page:has(.page-illustration) .page-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 70%;
+    padding: 15px 20px 45px;
+    background: rgba(255, 255, 255, 0.1);
+    /* 90% transparent white */
+
+    /* Subtle blur for premium feel */
+
+    z-index: 10;
+  }
+
+  .page-text p {
+    font-size: var(--story-text-size);
+    line-height: var(--story-line-height);
+    margin-bottom: 8px;
+    text-align: left;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Thinner spine crease for mobile portrait */
+  .page:nth-child(odd) .story-page::before,
+  .page:nth-child(even) .story-page::before {
+    display: none;
+    /* Hide paper lines/texture on mobile to keep it clean */
+  }
+
+  .controls-bar {
+    padding: 6px 12px 4px;
+    gap: 15px;
+  }
+
+  .controls-left,
+  .controls-right {
+    gap: 4px;
+  }
+
+  .control-btn {
+    padding: 6px 8px;
+    gap: 0;
+  }
+
+  .control-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .main-page-slider {
+    max-width: 100%;
+  }
+
+  .slider-label-left {
+    min-width: 45px;
+    font-size: 0.5rem;
+    letter-spacing: 0;
+  }
+
+  .settings-panel {
+    width: 92%;
+    left: 50%;
+    bottom: 65px;
+    padding: 14px;
+  }
+
+  .settings-header {
+    margin-bottom: 12px;
+  }
+
+  .settings-header h3 {
+    font-size: 0.75rem;
+  }
+
+  .slider-value {
+    min-width: 70px;
+    font-size: 0.6rem;
+  }
+}
+
+
+/* --- Print styles (for accessibility) --- */
+@media print {
+
+  .nav-btn,
+  .controls-bar,
+  .bg-particles,
+  .loading-overlay,
+  .book-header {
+    display: none !important;
+  }
+
+  .app {
+    display: block;
+    overflow: visible;
+  }
+
+  .page {
+    break-after: page;
+  }
+}
+
+/* --- Manual Page Speaker Buttons --- */
+.page-speaker-btn {
+  position: absolute;
+  z-index: 25;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(30, 25, 20, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  top: 25px;
+}
+
+/* Position near spine for Desktop Spread */
+.page:nth-child(even) .page-speaker-btn {
+  right: 25px; /* Left page, spine is on the right */
+}
+
+.page:nth-child(odd) .page-speaker-btn {
+  left: 25px; /* Right page, spine is on the left */
+}
+
+/* Adjust for mobile - move to bottom for easier reach */
+@media (max-width: 900px) {
+  .page-speaker-btn {
+    top: 20px !important;
+    bottom: auto !important;
+    right: 20px !important;
+    left: auto !important;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.page-speaker-btn:hover {
+  transform: scale(1.1);
+  background: var(--accent-gold);
+  color: #fff;
+  border-color: #fff;
+}
+
+.page-speaker-btn:active {
+  transform: scale(0.95);
+}
+
+.page-speaker-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 900px) {
+  .page-speaker-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.page-speaker-btn.active-narration {
+  background: var(--accent-gold);
+  animation: pulse-speaker 2s infinite;
+}
+
+@keyframes pulse-speaker {
+  0% { box-shadow: 0 0 0 0 rgba(201, 151, 63, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(201, 151, 63, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 151, 63, 0); }
+}

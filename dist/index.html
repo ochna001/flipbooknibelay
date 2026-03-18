@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="fil">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ang Pasalubong Para Kay Belay</title>
+  <meta name="description"
+    content="An interactive digital flipbook showcasing a Filipino story about family, mountains, and finding treasure in what we already have." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Great+Vibes&display=swap"
+    rel="stylesheet">
+  <script type="module" crossorigin src="./assets/index-D26Jciea.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DVxiP2AU.css">
+</head>
+
+<body>
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-content">
+      <div class="loading-book">
+        <div class="loading-page"></div>
+        <div class="loading-page"></div>
+        <div class="loading-page"></div>
+      </div>
+      <p class="loading-text">Binubuksan ang kwento...</p>
+    </div>
+  </div>
+
+  <!-- Main Application -->
+  <div id="app" class="app hidden">
+    <!-- Background particles -->
+    <div class="bg-particles" id="bg-particles"></div>
+
+    <!-- Header -->
+    <header class="book-header">
+      <h1 class="book-title-header"><span class="accent">📖</span> Ang Pasalubong Para Kay Belay</h1>
+    </header>
+
+    <!-- Book Container -->
+    <div class="book-wrapper">
+      <div class="book-container" id="book">
+        <!-- Cover Page -->
+        <div class="page page-cover" data-density="hard">
+          <div class="page-content cover-front">
+            <div class="cover-image-wrapper">
+              <img src="./images/cover.png" alt="Mountain sunrise" class="cover-image" />
+              <div class="cover-overlay"></div>
+            </div>
+            <div class="cover-text">
+              <h2 class="cover-title" style="font-size: 2.5rem; margin-top: 2rem;">Ang<br>Pasalubong<br>Para
+                Kay<br>Belay</h2>
+              <div class="cover-ornament">— ⟡ —</div>
+              <p class="cover-tagline" style="margin-top: 1rem;">Isang Kwento ng Bundok at Pamilya</p>
+            </div>
+          </div>
+        </div>
+
+                <!-- Page 1 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene1.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Magkahalo palagi ang aking saya at pananabik tuwing masisilayan ko ang pagsikat ni haring araw. Isa lamang itong palatandaan na may isang araw nanaman ang lumipas at napagtagumpayan kong malagpasan, ngunit madalas ko ring tinatanong ang aking sarili "Palagi na lang ba akong mananatili sa ganitong katayuan?"</p>
+              <p>Yan ang sinasambit ko sa tuwing umaga paghaharap ako sa maliit na salamin sa aking silid at unti unting napapawi ang pakiramdam ng pagkagalak at napapalitan ng lungkot.</p>
+            </div>
+            <div class="page-number">1</div>
+          </div>
+        </div>
+
+        <!-- Page 2 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene2.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Hindi ko naman masisisi ang katayuan ng aking buhay sa aking nanay, siya ay nagpapakandahirap sa pagtitinda ng mga lutong ulam para lamang mayroong sapat na pang gastos sa araw araw.</p>
+              <p>Madaling araw pa lamang ay bumababa na sa paanan ng bundok si nanay upang maabutan niya ang mga traysikel na bumabyahe patungo sa bayan, halos 17 kilometro rin kasi ang layo ng aming lugar sa mismong pamilihan.</p>
+            </div>
+            <div class="page-number">2</div>
+          </div>
+        </div>
+
+        <!-- Page 3 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene3.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Habang abala ang aming ina sa pagtitinda, ang aking nakatatandang kambal na kapatid na si kuya Gino at kuya Gaston ay bumababa rin ng bundok upang mag hanap ng mga turistang nais umakyat sa bundok.</p>
+              <p>Ang aking dalawang kuya ay nagtatrabaho bilang tourist guide, sila ang gumagabay sa mga turista na nais masaksihan ang bundok kung saan kami naninirahan.</p>
+            </div>
+            <div class="page-number">3</div>
+          </div>
+        </div>
+
+        <!-- Page 4 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene4.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Doon ay nakikipagsapalaran siya sa mga mahal na presyo ng mga bilihin upang may maitinda, kapag balik ni nanay galing pamilihan ay agad agad niyang inihahanda ang pinamili upang maging pagkain ng mga turistang umaakyat sa bundok.</p>
+              <p>Hindi malaki ang kita sa pagiging tourist guide, kaya hindi ito sapat sa aming pang araw-araw na pangangailangan dahil may kanya kanyang pamilya rin namang binubuhay ang aking mga kuya.</p>
+            </div>
+            <div class="page-number">4</div>
+          </div>
+        </div>
+
+        <!-- Page 5 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene5.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Ako naman ang naiiwan sa bahay dahil ako raw ay mayroong mahinang resistensya at sakitin. Palagi lamang ako nakaabang sa mga kwentong iuuwi ng aking nanay at mga kuya.</p>
+            </div>
+            <div class="page-number">5</div>
+          </div>
+        </div>
+
+        <!-- Page 6 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene6.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Nang sumapit na ang hapon, nagulat nalamang ako nang marinig ang malambing na sigaw ng aking lolo — "Belay! Belay!" — sigaw ng aking lolo kaya ako ay nagmamadali upang dungawin siya sa ibaba ng aming munting kubo.</p>
+              <p>"Ano po iyon lo?" ang sambit ko sa sobrang pagkagalak dahil alam kong mayroon nanaman siyang bagong kwentong uwi para sa akin.</p>
+            </div>
+            <div class="page-number">6</div>
+          </div>
+        </div>
+
+        <!-- Page 7 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene7.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Ang aking lolo ay pitumpu't limang taong gulang na ngunit malakas pa rin ang tuhod at umeekstra pa rin sa pagiging tourist guide.</p>
+              <p>"Alam mo bang mayroon akong pasalubong sa iyo? Isang kwentong tiyak na ikamamangha mo," wika ng lolo halata sa kanyang tono na siya ay sabik na sabik sa kanyang gustong sabihin.</p>
+              <p>"Sabi na lo, hinding hindi mo ako makaklimutan uwian ng pasalubong e" sagot ko sa kanya.</p>
+            </div>
+            <div class="page-number">7</div>
+          </div>
+        </div>
+
+        <!-- Page 8 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene8.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Inilahad ng aking lolo ang tungkol sa isang grupo na sinamahan niya sa pag akyat ng bundok, isang buong grupo raw ito ng mga hikers na nais puntahan ang sikat na Lover's Tree.</p>
+              <p>Pagkarating daw ng mga grupong ito sa nasabing tourist spot ay nabigla na lamang ang lolo dahil plano pala ng lalaki mag propose sa kanyang kasintahan.</p>
+              <p>Naniniwala kasi ang mga tao rito na kapag daw inalayan ng singsing ng binata ang isang dalaga sa harap ng punong iyon ay sila na ang magkakatuluyan habang buhay.</p>
+            </div>
+            <div class="page-number">8</div>
+          </div>
+        </div>
+
+        <!-- Page 9 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <img src="./images/image10.png" alt="Scene 9" loading="lazy" />
+            </div>
+            <div class="page-text">
+              <p>"Kaya ikaw, belay, kapag nag kanobyo ka, sana ay alayan ka rin niya ng singsing sa harap ng punong iyon" malambing na payo ng aking lolo bago siya mag tungo sa loob ng kubo upang mag pahinga dahil muli siyang eekstra bukas.</p>
+              <p>Ako ay naiwan sa labas at aking iniisip ang payo ng aking lolo, "Paano naman ako mag kakanobyo, e hindi nga ako makalayo sa labas ng bahay tapos ang pangit pangit ko pa" malungkot kong bulong sa aking sarili.</p>
+            </div>
+            <div class="page-number">9</div>
+          </div>
+        </div>
+
+        <!-- Page 10 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <img src="./images/image31.png" alt="Scene 10" loading="lazy" />
+            </div>
+            <div class="page-text">
+              <p>Nawala na lamang ang aking malalim na iniisip noong kinagat ako ng malalaking langgam. "Aray, aray ko, ang kati" sambit ko habang kinakamot ang mga kagat ng langgam.</p>
+            </div>
+            <div class="page-number">10</div>
+          </div>
+        </div>
+
+        <!-- Page 11 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene11.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Sinundan ko ang hanay ng mga maliliit na langgam kung saan sila nanggagaling, natunton ko na nanggaling sila sa antigong baul na nakatago sa likod ng aming munting kubo, pinagpag ko ang mga langgam, at alikabok na bumabalot dito.</p>
+            </div>
+            <div class="page-number">11</div>
+          </div>
+        </div>
+
+        <!-- Page 12 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene12.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Sa sobrang kuryosidad ay naisip kong buksan ang baul at tumambad sa aking ang litrato ng aking ina na may kasamang lalaki.</p>
+              <p>Ang larawan ay kuha nila sa gilid ng maganda at mukang payapang talon na nasa kabilang dako ng bundok.</p>
+            </div>
+            <div class="page-number">12</div>
+          </div>
+        </div>
+
+        <!-- Page 13 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene13.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Base sa kwento ng aking mga kapatid kapag umuuwi, bago mo ito mapuntahan ay kailangan mo muna mag lakad ng tatlumpung minuto at madaan ang pitong malinaw na ilog.</p>
+              <p>Manghang maha ako sa mga larawang aking nakita kaya madali ko itong kinuha at hinintay ang pagdating ng aking nanay mula sa pagtitinda.</p>
+            </div>
+            <div class="page-number">13</div>
+          </div>
+        </div>
+
+        <!-- Page 14 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene14.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Sinimulan ko nang linisin ang aming bahay dahil maya maya lamang ay uuwi na ang nanay, "Belay, ako nga ay iyong tulungan buhatin ang basket ng mga tirang ulam" pagalit na sigaw ng nanay sa akin halatang hindi maganda ang benta...</p>
+              <p>"Opo, nay, papunta na po!" ang aking tugon sa kanya.</p>
+            </div>
+            <div class="page-number">14</div>
+          </div>
+        </div>
+
+        <!-- Page 15 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <img src="./images/image13.png" alt="Scene 15" loading="lazy" />
+            </div>
+            <div class="page-text">
+              <p>Patuloy ang aking nanay sa pag aayos ng mga tira niyang tinda, sa sobrang sabik kong malaman ang kwento sa likod ng mga larawang nakita ko kanina ay sinimulan ko na ang pagtatanong sa aking ina.</p>
+              <p>"Nay, sa Aloha Falls po ba ninyo kuha ang mga litrato na ito?" sabay pakita ko sa kanya ng mga larawan.</p>
+            </div>
+            <div class="page-number">15</div>
+          </div>
+        </div>
+
+        <!-- Page 16 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene16.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Mas lalong nag iba ang timpla ng mukha ng aking ina noong makita niya ang mga larawan, "Ano ka ba naman belay! hindi ba't sinabi ko na sa'yo, na huwag na huwag mo papakialaman ang mga gamit ko!"</p>
+              <p>"Wala nang pero pero, himbis magsaing ka at mag linis ng bahay anong ginawa mo?! Ayan nagkakalkal ng mga gamit na hindi naman dapat kalkalin, jusko belay, pagod na pagod na nga ako sa pagtitinda, pati ba naman pagdating rito sa bahay ako pa rin ang kikilos"</p>
+            </div>
+            <div class="page-number">16</div>
+          </div>
+        </div>
+
+        <!-- Page 17 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <img src="./images/image25.png" alt="Scene 17" loading="lazy" />
+            </div>
+            <div class="page-text">
+              <p>Ramdam ko ang galit sa akin ng aking ina at ramdam ko rin na mayroon siyang iniiwasan. "Pasensya na po, Nay, napasarap po kasi ang kwentuhan namin ni lolo kanina, at hindi ko sinasadyang pakialaman ang gamit ninyo" nangingilid ang aking luha...</p>
+              <p>Hindi ako kinibo ng aking nanay.</p>
+              <p>"Atsaka nay, yung kasama mo naman sa larawan na lalaki, yun ba ang tatay? Bakit po ganon na lamang ang galit mo sa kanya?" dagdag ko pa, humarap sa akin ang nanay at saka sinabing "Huwag mo siyang tatawaging tatay."</p>
+            </div>
+            <div class="page-number">17</div>
+          </div>
+        </div>
+
+        <!-- Page 18 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene17.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>"Huwag mong ituturing na ama ang lalaking hindi nagpaka-ama. Hindi siya ang nag-alaga, hindi siya ang nagbigay, at hinding-hindi namin kailangan ang pangalan na iyon dito sa bahay."</p>
+              <p>Iyon ang kanyang huling sinabi bago siya napabuntong-hininga at bumalik sa pag-aayos. Tila nabutas ang balon sa dibdib ko, napalabas na lamang ang luha ko nang hindi ko na mapigilan.</p>
+              <p>Umusad ako palabas, hinayaan ko ang hangin na dumampi sa pisngi ko kasabay ng pag agos ng luha sa aking mga mata.</p>
+            </div>
+            <div class="page-number">18</div>
+          </div>
+        </div>
+
+        <!-- Page 19 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene18.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Nag tungo ako sa aming bakuran dahil nakaugalian ko nalang ikwento ang aking sama ng loob sa mga tanim naming binhi ng kape.</p>
+              <p>Dahil sabi ng lolo, mas masarap ang kape kapag mapait, at ang isang sikreto upang mas maging mapait ang bunga ng kape na aming binhi ay ikwento namin ang mga sakit na nararamdaman sa mga binhi nito.</p>
+              <p>Ang mga binhing ito ay ibinababa ni kuya gino at kuya gaston sa paanan ng bundok at inaangkat naman ng mga taga bayan.</p>
+            </div>
+            <div class="page-number">19</div>
+          </div>
+        </div>
+
+        <!-- Page 20 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene19.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Sa gitna ng aking pagluha sa mga binhi ng kape sa aming bakuran nilapitan naman ako ni lolo na halatang kagagaling lang sa pagpapahinga.</p>
+              <p>"Oh, iha, nagtalo nanaman ba kayo ng iyong nanay?" wika ng lolo habang marahang tinatapik and aking kanang balikat.</p>
+              <p>"Opo, lo, dahil po sa larawan na ito" sabay pakita ng larawang una ko ng ipinakita sa aking ina.</p>
+              <p>Natahimik ng ilang sandali si lolo saka bumuntong hininga "intindihin mo na lamang ang iyong ina, belay, lalo na't hindi pa rin naghihilom ang sugat na iniwan ng inyong ama simula noong nilisan niya kayo."</p>
+            </div>
+            <div class="page-number">20</div>
+          </div>
+        </div>
+
+        <!-- Page 21 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene20.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Hindi madali para sa akin ang payo ni lolo upang intindihan ang aking ina ngunit wala naman akong magagawa kahit na sabik na sabik ako sa yakap at pagkalinga ng aking ama.</p>
+              <p>Dahil tama nga si nanay, kahit kailan ay hindi nagpakaama ang aming tatay.</p>
+              <p>Sa gitna ng subok na pagpapatahan ng aking lolo sa tuloy tuloy kong pag iyak ay nakita ko na naglalakad si kuya gaston ngunit nanibago ako dahil nasanay ako na tuwing uuwi ang aking mga kuya ay dalawa sila, pero ngayon ay isa lang siya.</p>
+            </div>
+            <div class="page-number">21</div>
+          </div>
+        </div>
+
+        <!-- Page 22 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene21.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Nag derederetso ang kuya sa aming munting kubo at nagmano kay nanay at kami naman ni lolo ay pumasok na rin sa loob upang mag hapunan.</p>
+            </div>
+            <div class="page-number">22</div>
+          </div>
+        </div>
+
+        <!-- Page 23 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene22.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Habang kami ay magkakaharap sa hapag kainan tinanong ko ang kuya gaston kung bakit wala ang kuya gino.</p>
+              <p>"Naiwan si gino ron, naiwan sila kasama ng iba pang tour guide, may ibinaba kasi silang babaeng turista, hindi kinaya ang pag akyat sa tuktok ng bundok, at doon binawian ng hininga" matamlay na saad ng kuya.</p>
+              <p>Sumabat naman ang lolo na nakasalubong niya raw ang babaeng turistang iyon.</p>
+              <p>"Eh, yung babaeng 'yon, yun ang babaeng ayaw paakyatin kaninang umaga, dahil meron din siyang karamdaman tulad nung kay belay, yung bawal mapagod" dagdag ni lolo.</p>
+              <p>"Si belay, nagiinarte lang yan, mayron bang ganong sakit? Bawal mapagod? Gawa gawa na lamang niya yan" sabat naman ng aking ina.</p>
+            </div>
+            <div class="page-number">23</div>
+          </div>
+        </div>
+
+        <!-- Page 24 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene23.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Nadagdagan pa ang sakit na nararamdaman ko sa iwinika ng aking nanay nang biglang mag salita ang aking kuya gaston.</p>
+              <p>"Nay, yung babaeng binawian ng buhay, matagal niya na pangarap ang umakyat ng bundok, at yun daw ang huling hiling niya sa mga magulang niya kaya pinayagan na nila itong umakyat."</p>
+              <p>Hindi na lamang umimik ang aming ina.</p>
+            </div>
+            <div class="page-number">24</div>
+          </div>
+        </div>
+
+        <!-- Page 25 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene24.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Matapos ang aming hapunan ay balak ko sana hintayin sa pag uwi si kuya gino ngunit sabi ng lolo ay baka bukas pa ito makauwi kaya nagtungo na lamang ako sa silid at natulog.</p>
+            </div>
+            <div class="page-number">25</div>
+          </div>
+        </div>
+
+        <!-- Page 26 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene24.1.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Sa sobrang himbing ng aking tulog ay hanggang sa panaginip nakikita ko kung gaano kaganda ang bundok na aming tinitirahan, ang ganda ng batong nakausli sa ituktok ng bundok, isang malaking bato na may nakalagay na "batong amat" nagpatuloy pa ako sa paglalakad at kinausap ang isang lalaki na nakatayo rin sa gilid ng bato.</p>
+              <p>"Ano po ang ibig sabihin ng batong amat?" nagtatakang tanong ko.</p>
+              <p>"Ah, yan ba, ang amat ay matandang salita na ang ibig sabihin ay multo" sagot ng lalaki.</p>
+              <p>Hindi ko maintindihan kung bakit ang katumbas ng amat ay multo samantalang wala namang na balitang may multo rito, "paano po naging multo ang ibig sabihin ng amat?"</p>
+            </div>
+            <div class="page-number">26</div>
+          </div>
+        </div>
+
+        <!-- Page 27 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene24.2.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>"Ineng, kaya tinawag na multo ang amat ay dahil noong panahon ng mga hapon, ang ilalim ng kinatitirikan ng batong yan ang nagsilbing hospital nila" wika ng lalaki.</p>
+              <p>Patuloy niyang kinwento na kaya nagmula raw sa matatanda ang salitang iyon dahil dati raw tuwing madaling araw ay may mga sundalong hapon na nagpaparamdam sa kanila na humihingi ng tulong upang gamutin sila kapalit ng mga ginto at pilak.</p>
+              <p>Nagsimula na akong matakot at tumayo ang aking mga balahibo...</p>
+            </div>
+            <div class="page-number">27</div>
+          </div>
+        </div>
+
+        <!-- Page 28 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene25.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>...dahil ako ay matatakutin ng bilang maputol ang aking panaginip dahil ginising ako ni kuya Gino.</p>
+              <p>"Belay, Belay, bumangon ka na sa iyong pagkakatulog at tulungan mo si nanay ihanda ang gamit niya pamalengke, mamaya maiwan nanaman siya ng mga traysikel" mahinahon na saad ni kuya Gino sa akin.</p>
+              <p>"Kuya Gino! mabuti naman nakauwi ka na, may pasalubong ka ba sa akin?" 'yan ang tanong ko sa kanya na may kasamang pananabik pagkamulat ng aking mata.</p>
+              <p>"Pasensya na belay, ngunit marami pa akong kailangan gawin, hayaan mo babawi ako sa susunod".</p>
+            </div>
+            <div class="page-number">28</div>
+          </div>
+        </div>
+
+        <!-- Page 29 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <img src="./images/image20.png" alt="Scene 29" loading="lazy" />
+            </div>
+            <div class="page-text">
+              <p>Napalitan nanaman ng lungkot ang aking pananabik, kagaya ng dati, niligpit ko ang aking higaan at tinignan ko ang aking sarili sa harap ng salamin.</p>
+              <p>"Nais ko na rin makita ang pamumuhay ng ibang tao sa labas ng bahay na ito, nais ko rin makapag-aral gaya ng ibang kabataang tulad ko", malungkot kong sambit habang kinakausap ang aking sarili.</p>
+              <p>Pag-alis nila nanay ay naiwan nanaman akong mag isa.</p>
+            </div>
+            <div class="page-number">29</div>
+          </div>
+        </div>
+
+        <!-- Page 30 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene27.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Ilang araw ang lumipas mula nang gabi na iyon. Hindi ko maiwasang balikan ang mga larawang nakita ko sa lumang baul.</p>
+              <p>Isang umaga, habang nililinis ko ang harapan ng aming kubo, narinig ko ang malakas na tawa ni lolo mula sa likod ng bahay.</p>
+              <p>Palapit ako at nakita kong kasama niya si Kuya Gino na may dalang munting kahon.</p>
+              <p>"Belay! Halika, may regalo ka dito mula sa mga turista!" masayang sigaw ni Kuya Gino. Agad akong nagtungo sa kanilang kinaroroonan...</p>
+            </div>
+            <div class="page-number">30</div>
+          </div>
+        </div>
+
+        <!-- Page 31 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene28.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Naupo ako sa tabi nila habang iniabot ni kuya sa akin ang kahon. Sa loob nito ay isang simpleng sulat mula sa isang batang turista na nakarating daw sa Aloha Falls.</p>
+              <p>Isinulat ng batang iyon kung gaano kaganda ang talon, kung paano ang malinaw na tubig nito ay nagbibigay ng kapayapaan sa kanyang puso.</p>
+              <p>"Para sa taong nagbigay ng daan para makapunta kami rito" nakasulat sa sobreng gawa sa papel. Hindi ko mapigilan ang ngiti.</p>
+            </div>
+            <div class="page-number">31</div>
+          </div>
+        </div>
+
+        <!-- Page 32 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene29.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Nang umaga ring iyon, habang kami ni lolo ay nakaupo sa labas ng kubo at tinatamasa ang malamig na hangin ng bundok, biglang nagsalita si lolo nang seryoso.</p>
+              <p>"Belay, alam mo bang ang mga taong pumupunta rito ay nagmula pa sa malalayong lungsod? Itinuturing nilang paraiso ang ating bundok. Ang Batong Amat, ang Lover's Tree, ang Aloha Falls mga bagay na araw-araw mong naririnig sa kwento at hindi mo man lang pinahahalagahan."</p>
+            </div>
+            <div class="page-number">32</div>
+          </div>
+        </div>
+
+        <!-- Page 33 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene30.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Tumingin ako sa malayo. Pero paano ko naman papahalagahan ang bagay na hindi ko pa naman napupuntahan sa personal ngunit totoo nga.</p>
+              <p>Halos bawat araw ay nakakakita ako ng makulay na ulap na bumabalot mula sa tuktok ng bundok, ang puting usok ng sariwang hangin, ang mga ibon na lumipad nang malaya. Ngunit hindi ko ito kailanman tinanaw nang may pagpapahalaga.</p>
+              <p>"Kaya naman, bukas, isasama ka namin sa aming tour. Matagal ka na naming ikinulong at hindi pinayagan lumabas nang kasama kami" Nagtataka ako dahil ang sabi nila ay may sakit ako na bawal mapagod...</p>
+            </div>
+            <div class="page-number">33</div>
+          </div>
+        </div>
+
+        <!-- Page 34 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene31.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Nang gabing iyon, lumapit na rin si nanay at ang aking mga kuya sa sala. Marahil ay may nabalitaan si nanay dahil habang kami ay nagkakainan ng hapunan ay dahan-dahan siyang nagsalita.</p>
+              <p>"Belay… tungkol sa larawan. Pasensya na kayo. Hindi kayo dapat lumaking walang kwento ng inyong ama."</p>
+              <p>Maingat, masakit at mabagal na ikinwento ni nanay ang nakaraan. Ang ama raw namin ay umalis at nagkaroong ng ibang asawa.</p>
+              <p>Takot raw siya at hindi niya kayang makita kaming nasasaktan dahil mas pinili ng aking ama na kumalinga ng anak na hindi naman sa kanya kaysa sa mga totoong anak niya. Ngunit si nanay ay lumaban para sa amin...</p>
+              <p>"Ang larawan na iyon sa Aloha Falls… iyon ang huling beses na kami ay magkasama at masaya. Doon niya huling sinabi sa akin mahal niya ako."</p>
+              <p>Tumahimik si nanay sandali, at saka nagpatuloy. "Kaya huwag mo siyang sisihin, Belay. Sisihin mo na lamang ang takot na minsan ay nagtatago sa puso ng bawat isa sa atin."</p>
+            </div>
+            <div class="page-number">34</div>
+          </div>
+        </div>
+
+        <!-- Page 35 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene32.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Lumabas ang luha ko nang tahimik. Ngayon ko lang naintindihan ang lahat ng tiniis ng aking nanay, ang lahat ng araw na bumababa siya ng bundok para sa aming pagkain, ang lahat ng gabing natutulog siyang nag-iisa...</p>
+              <p>Hindi ko siya naintindihan noon. Ngunit ngayon, habang nakikita ko ang kanyang mga mata na umaalon ang luha, unti-unting natanggap ng aking puso ang katotohanan, ang pamilyang ito, kahit kulang, kahit may mga piling sugat ay buong-buo.</p>
+            </div>
+            <div class="page-number">35</div>
+          </div>
+        </div>
+
+        <!-- Page 36 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene32.1.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Kinabukasan, tulad ng pangako ni lolo, isinama niya ako sa kanyang tour. Unang pagkakataon ko na lumabas ng bahay nang ganoon kalayo. Hawak-hawak niya ang aking kamay habang kami ay unti-unting lumalakad paakyat ng bundok.</p>
+              <p>Naramdaman ko ang malamig na ambon na dumampi sa aking mukha, ang basa-basang lupa sa ilalim ng aking mga paa, at ang amoy ng mga halaman na parang bagong linis ng ulan.</p>
+            </div>
+            <div class="page-number">36</div>
+          </div>
+        </div>
+
+        <!-- Page 37 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene32.2.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Nang marating namin ang Batong Amat, tumingin ako sa malawak na kapatagan sa ibaba. Doon nakita ko ang bayan, ang mga bubong ng mga bahay, ang mga kalsada na parang linya ng palad.</p>
+              <p>Doon nakita ko ang aming munting kubo - napakaliit nito mula sa itaas, ngunit puno ng buhay. Puno ng mga kwentong narinig ko sa hapag-kainan, puno ng mga tawa ni lolo, puno ng mga dahon ng kape na nagbibigay ng kita sa aming pamilya.</p>
+              <p>"Lo, bakit kaya nais ng mga turista na pumunta rito? Mayroon ba na silang mas maganda sa kanilang lugar?" tanong ko.</p>
+            </div>
+            <div class="page-number">37</div>
+          </div>
+        </div>
+
+        <!-- Page 38 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <img src="./images/image24.png" alt="Scene 38" loading="lazy" />
+            </div>
+            <div class="page-text">
+              <p>"Hindi ang sagot. Mayroon silang mga gusali, mga mall, mga sasakyan. Ngunit wala silang katahimikan tulad dito. Wala silang mga ibon na nagtatanghal tuwing umaga. Wala silang talon na naghuhugas ng pagod. Ang tinitirhan natin, belay, ay kayamanan at hindi ito nabibili ng pera."</p>
+              <p>Patuloy kaming lumakad pababa at sa daan ay dumaan kami sa Lover's Tree. Ang punong ito ay matagal nang nakatayo sa gilid ng landas matanda na, nakabalot ng lumot, ngunit matatag pa rin ang mga ugat sa lupa.</p>
+            </div>
+            <div class="page-number">38</div>
+          </div>
+        </div>
+
+        <!-- Page 39 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene34.mp4" data-sequence="scene34.mp4,scene35.mp4" preload="none" muted playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Niyakap ko ang puno ng sandali, nang hindi ko alam kung bakit. Baka dahil parang pamilya rin ito matanda, nandiyan lang, hindi nawawala.</p>
+              <p>Nang makauwi kami, may kasamang grupo ng mga kabataang turista na nagsisimula pang umakyat.</p>
+            </div>
+            <div class="page-number">39</div>
+          </div>
+        </div>
+
+        <!-- Page 40 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene36.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Nakita ko si nanay na abala sa paghahanda ng kanyang mga tinda mainit na mais, sarsa ng kape, mga lutong ulam, at mga suman na yari sa sarili nilang palayan.</p>
+              <p>Tinanaw ko siya nang matagal. Nakita ko ngayon ang kanyang likod - hindi ang likod ng isang taong pagod, kundi ang likod ng isang taong nagtataglay ng lakas.</p>
+              <p>"Nay… salamat po." Tumingin siya sa akin, nagtataka. "Sa ano?"sagot niya "Sa lahat. Sa bawat araw na binababa ninyo ang bundok para sa amin. Sa bawat tirang ulam na binubuhay kayo. Sa lahat ng hindi ninyo sinabi ngunit ginawa ninyo. Salamat po, nanay."</p>
+            </div>
+            <div class="page-number">40</div>
+          </div>
+        </div>
+
+        <!-- Page 41 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene37.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Hindi siya nagsalita. Ngunit niyakap niya ako nang mahigpit, mas mahigpit kaysa sa akalain ko. At sa yakap na iyon, naramdaman ko ang lahat ng salitang hindi niya masabi. Ang pagmamahal na hindi masukat-sukat, ang pagod na pinipigil niyang ipakita, ang pangako na araw-araw niyang tinutupad sa bawat paggising.</p>
+            </div>
+            <div class="page-number">41</div>
+          </div>
+        </div>
+
+        <!-- Page 42 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene38.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Nang takipsilim na at nagsimula nang mangolekta ang gabi ng liwanag, umupo kami ng buong pamilya sa labas ng aming kubo. Ang mga bituin ay unti-unting sumikat, at ang amoy ng kape mula sa aming bakuran ay humahalo sa malamig na hangin ng gabi.</p>
+              <p>Nandoon si lolo na nagsasalaysay ng mga kwento ng bundok, si Kuya Gino at Kuya Gaston kasama ang kanilang sariling pamilya na nagtatawanan sa gilid, at si nanay na ngumingiti nang tahimik habang naglalagay ng mainit na inumin sa aming mga kamay.</p>
+            </div>
+            <div class="page-number">42</div>
+          </div>
+        </div>
+
+        <!-- Page 43 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <img src="./images/scene39_screenshot.png" alt="Scene 43" loading="lazy" />
+            </div>
+            <div class="page-text">
+              <p>Naisip ko ang sulat ng batang turista. Naisip ko ang mga taong naglalakbay nang malayo para marinig ang katahimikang ito, para matamasa ang ganda ng bundok na aming tinitirhan.</p>
+              <p>At naisip ko ang sarili ko - ang batang naninirahan sa gitna ng lahat ng kagandahang ito ngunit bulag sa kayamanang nasa paligid niya.</p>
+            </div>
+            <div class="page-number">43</div>
+          </div>
+        </div>
+
+        <!-- Page 44 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene39.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Minsan, ang mga bagay na pinaka-hinahanap natin ay ang mga bagay na lagi nang nasa atin ang pamilyang hindi perpekto ngunit nandoon palagi, ang lupang hindi maluwag ngunit tahanan, ang mga tao na hindi palaging may tamang salita ngunit may palaging handang puso.</p>
+              <p>Ang kayamanan ng isang tao ay hindi laging nakikita sa kanyang bulsa.</p>
+            </div>
+            <div class="page-number">44</div>
+          </div>
+        </div>
+
+        <!-- Page 45 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene39.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Minsan, naroon ito sa mga kamay ng isang ina na mainit na humahaplos sa atin kahit pagod, sa mga kwento ng isang lolo na nagpapahalaga sa bawat araw, at sa kagandahan ng bundok na kahit tayo ay ipinanganak ng nakatingin sa ibaba lagi ring nagbubukas ng mga bisig para sa lahat ng nais umuwi.</p>
+            </div>
+            <div class="page-number">45</div>
+          </div>
+        </div>
+
+        <!-- Page 46 -->
+        <div class="page" data-density="soft">
+          <div class="page-content story-page">
+            <div class="page-illustration">
+              <div class="page-loader"><div class="spinner"></div></div>
+              <video src="./videos/scene39.mp4" preload="none" muted loop playsinline></video>
+            </div>
+            <div class="page-text">
+              <p>Sa araw na iyon, natapos ang aking paghahanap ng sagot sa tanong na matagal na ring naghihintay sa loob ng aking dibdib.</p>
+              <p>At ang sagot - tulad ng ganda ng Aloha Falls, tulad ng lakas ng Lover's Tree, tulad ng katahimikan na nagmumula sa tuktok ng Batong Amat - ay lagi nang nandoon. Naghihintay lamang na ang aking mga mata ay magbukas nang malawak, at ang aking puso ay matuto sa wakas na tumanggap.</p>
+            </div>
+            <div class="page-number">46</div>
+          </div>
+        </div>
+
+        <!-- Back Cover -->
+        <div class="page page-cover" data-density="hard">
+          <div class="page-content cover-back">
+            <div class="back-cover-content">
+              <div class="back-ornament">— ⟡ —</div>
+              <h3 class="back-title">Ang Pasalubong Para Kay Belay</h3>
+              <p class="back-subtitle">Isang Kwento ng Bundok at Pamilya</p>
+              <div class="back-divider"></div>
+              <p class="back-quote">"Ang kayamanan ng isang tao ay hindi laging nakikita sa kanyang bulsa."</p>
+              <div class="back-ornament">— ⟡ —</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Controls -->
+      <button class="nav-btn nav-prev" id="btn-prev" aria-label="Previous page">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button class="nav-btn nav-next" id="btn-next" aria-label="Next page">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Bottom Controls -->
+    <div class="controls-bar">
+      <div class="controls-left">
+        <button class="control-btn" id="btn-narration" aria-label="Toggle narration" title="Narration">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+          <span class="control-label">Salaysay</span>
+        </button>
+        <button class="control-btn" id="btn-settings" aria-label="Settings" title="Mga Setting">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
+          <span class="control-label">Mga Setting</span>
+        </button>
+
+        <div class="slider-group main-page-slider">
+          <span class="slider-label-left">PAGE</span>
+          <input type="range" id="page-slider" class="styled-slider page-slider" min="0" max="100" value="0" step="1"
+            aria-label="Page navigation" title="Lipat pahina" />
+          <span class="slider-value" id="page-indicator-slider">Pabalat</span>
+        </div>
+      </div>
+      <div class="controls-center">
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settings-panel">
+          <div class="settings-header">
+            <h3>Mga Setting</h3>
+          </div>
+          <div class="sliders-container">
+            <div class="slider-group">
+              <span class="slider-label-left">ZOOM</span>
+              <input type="range" id="size-slider" class="styled-slider zoom-slider" min="50" max="100" value="100"
+                step="5" aria-label="Book size" title="Laki ng aklat" />
+              <span class="slider-value" id="size-label">100%</span>
+            </div>
+            <div class="slider-group">
+              <span class="slider-label-left">TEXT</span>
+              <input type="range" id="text-size-slider" class="styled-slider text-size-slider" min="70" max="100"
+                value="100" step="5" aria-label="Text size" title="Laki ng teksto" />
+              <span class="slider-value" id="text-size-label">100%</span>
+            </div>
+            <div class="slider-group">
+              <span class="slider-label-left">SPACING</span>
+              <input type="range" id="spacing-slider" class="styled-slider spacing-slider" min="10" max="22" value="18"
+                step="1" aria-label="Line spacing" title="Agwat ng linya" />
+              <span class="slider-value" id="spacing-label">1.8</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="controls-right">
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
