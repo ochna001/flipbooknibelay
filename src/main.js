@@ -698,7 +698,7 @@ class FlipbookApp {
     }
 
     this.currentSessionIdForEvent = sessionId;
-    this.narrationAudioElement.src = `/audio/narration/${audioFile}`;
+    this.narrationAudioElement.src = `./audio/narration/${audioFile}`;
     this.highlightSpeaker(pageIdx);
 
     this.narrationAudioElement.play().catch(err => {
@@ -816,7 +816,7 @@ class FlipbookApp {
     }
 
     this.currentSessionIdForEvent = this.narrationSessionId;
-    this.narrationAudioElement.src = `/audio/narration/${audioFile}`;
+    this.narrationAudioElement.src = `./audio/narration/${audioFile}`;
 
     this.narrationAudioElement.play().catch(err => {
       console.warn(err);
