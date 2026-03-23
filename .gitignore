@@ -26,3 +26,8 @@ dist-ssr
 # OS files
 Thumbs.db
 Desktop.ini
+
+# Project specific
+dist
+final(vids)
+fixchange
