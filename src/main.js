@@ -240,7 +240,7 @@ class FlipbookApp {
 
       vid.addEventListener('ended', () => {
         currentIndex = (currentIndex + 1) % sequence.length;
-        vid.src = `/videos/${sequence[currentIndex]}`;
+        vid.src = `./videos/${sequence[currentIndex]}`;
         vid.play().catch(e => console.log('Video play failed:', e));
       });
     });
