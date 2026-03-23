@@ -3,7 +3,10 @@ import { inject } from '@vercel/analytics';
 import './style.css';
 
 // Initialize Vercel Analytics
-inject();
+inject({
+  mode: import.meta.env.MODE === 'production' ? 'production' : 'development',
+  debug: import.meta.env.MODE === 'development',
+});
 
 // ============================
 // BELAY — Digital Flipbook App
