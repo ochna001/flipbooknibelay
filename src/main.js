@@ -1,5 +1,9 @@
 import { PageFlip } from 'page-flip';
+import { inject } from '@vercel/analytics';
 import './style.css';
+
+// Initialize Vercel Analytics
+inject();
 
 // ============================
 // BELAY — Digital Flipbook App
